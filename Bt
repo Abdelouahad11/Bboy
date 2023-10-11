@@ -1,0 +1,28 @@
+from telegram import Update
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+
+def start(update: Update, context: CallbackContext):
+    update.message.reply_text('مرحبًا بك في بوت التلغرام!')
+
+def echo(update: Update, context: CallbackContext):
+    update.message.reply_text(update.message.text)
+
+def main():
+    # Replace 'YOUR_API_TOKEN' with your bot's API Token
+    updater = Updater(token='5861213095:AAGvVvtQudVJ-wyyNqIgWoscG8dS6GE_MB0', use_context=True)
+    dispatcher = updater.dispatcher
+
+    # Define command handlers
+    start_handler = CommandHandler('start', start)
+    dispatcher.add_handler(start_handler)
+
+    # Define a message handler to echo back user messages
+    echo_handler = MessageHandler(Filters.text & ~Filters.command, echo)
+    dispatcher.add_handler(echo_handler)
+
+    # Start the bot
+    updater.start_polling()
+    updater.idle()
+
+if __name__ == '__main__':
+    main()
